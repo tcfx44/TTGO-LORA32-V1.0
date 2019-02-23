@@ -22,10 +22,10 @@ typedef struct {
 } Packet;
 
 Packet pkt;
-volatile unsigned long lastRecvTime = millis();
+volatile unsigned long lastRecvTime;
 
 // Forward method declarations
-void onReceive(int packetSize);
+void pktReceive(int packetSize);
 void pktDisplay(void *parm);
 void displayLoraPacket();
 void showLogo();
@@ -83,7 +83,8 @@ void setup() {
   Serial.println("init ok");
 
   // Set the radio into receive mode
-  LoRa.onReceive(onReceive);
+  lastRecvTime = millis();
+  LoRa.onReceive(pktReceive);
   LoRa.receive();
 }
 
@@ -97,7 +98,7 @@ void loop() {
   delay(100);
 }
 
-void onReceive(int packetSize) {
+void pktReceive(int packetSize) {
   for (int i = 0; i < packetSize; i++) {
     pkt.packetBuff[i] = (char)LoRa.read();
   }

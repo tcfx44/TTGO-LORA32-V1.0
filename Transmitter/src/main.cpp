@@ -5,8 +5,8 @@
 #include "images.h"
 
 //#define LORA_BAND    433
-//#define LORA_BAND    868
-#define LORA_BAND    915
+#define LORA_BAND    868
+//#define LORA_BAND    915
 
 SSD1306Wire display(0x3c, OLED_SDA, OLED_SCL);
 
@@ -24,13 +24,13 @@ void setup() {
   // Configure the LED an an output
   pinMode(LED_BUILTIN, OUTPUT);
 
-  // Configure OLED by setting the OLED Reset HIGH, LOW, and then back HIGH
-  pinMode(OLED_RST, OUTPUT);
-  digitalWrite(OLED_RST, HIGH);
-  delay(100);
-  digitalWrite(OLED_RST, LOW);
-  delay(100);
-  digitalWrite(OLED_RST, HIGH);
+  // // Configure OLED by setting the OLED Reset HIGH, LOW, and then back HIGH
+  // pinMode(OLED_RST, OUTPUT);
+  // digitalWrite(OLED_RST, HIGH);
+  // delay(100);
+  // digitalWrite(OLED_RST, LOW);
+  // delay(100);
+  // digitalWrite(OLED_RST, HIGH);
 
   display.init();
   display.flipScreenVertically();

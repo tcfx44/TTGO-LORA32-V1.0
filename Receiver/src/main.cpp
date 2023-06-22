@@ -37,12 +37,14 @@ void setup() {
   Serial.println();
   Serial.println("LoRa P2P Receiver");
 
+  pinMode(LED_BUILTIN, OUTPUT);
+
   // Create a new task on the second core to blink the LED when packets
   // are received.  After creation, give it a bit of time to startup
   xTaskCreatePinnedToCore(
     pktDisplay,
     "pktDisplayTask",
-    1000,
+    4096,
     NULL,
     1,
     &pktDisplayTask,
@@ -132,7 +134,6 @@ void pktDisplay(void *parm) {
   static const int BLINK_TIME_MS = 250;
 
   // Run forever
-  pinMode(LED_BUILTIN, OUTPUT);
   while (1) {
     // Wait for a notification
     ulTaskNotifyTake(pdTRUE, portMAX_DELAY);
@@ -143,7 +144,7 @@ void pktDisplay(void *parm) {
     if (pkt.packetSize > 0) {
         // toggle the led to give a visual indication the packet was sent
         digitalWrite(LED_BUILTIN, HIGH);
-        delay(BLINK_TIME_MS);
+        vTaskDelay(BLINK_TIME_MS/portTICK_PERIOD_MS);
         digitalWrite(LED_BUILTIN, LOW);
     }
   }
